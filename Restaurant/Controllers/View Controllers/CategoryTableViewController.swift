@@ -10,9 +10,16 @@ import UIKit
 
 class CategoryTableViewController: UITableViewController {
 
+    let menuController = MenuController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        menuController.fetchCategories { categories in
+            guard let categories = categories else { return }
+            
+            print(#function, categories)
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
