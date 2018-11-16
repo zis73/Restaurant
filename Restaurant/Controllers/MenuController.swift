@@ -28,4 +28,29 @@ class MenuController {
         }
         task.resume()
     }
+    func fetchMenuItem(
+        forCategory categoryName: String,
+        completion: @escaping (([MenuItem]?) -> Void)){
+        let initialMenuURL = baseURL.appendingPathComponent("menu")
+        var components = URLComponents(url: initialMenuURL, resolvingAgainstBaseURL: true)!
+        components.queryItems = [URLQueryItem(name: "category", value: categoryName)]
+        let menuURL = components.url!
+        let task = URLSession.shared.dataTask(with: menuURL)
+        {
+            data, response, error in
+            
+            guard let data = data else {
+                completion(nil)
+                return }
+            
+            let jsonDecoder = JSONDecoder()
+            guard let menuItems = try? jsonDecoder.decode(MenuItems.self, from: data)
+                else{
+                completion(nil)
+                return
+            }
+            completion(menuItems.items)
+        }
+        task.resume()
+    }
 }
