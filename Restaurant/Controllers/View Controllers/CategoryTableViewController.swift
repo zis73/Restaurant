@@ -30,8 +30,9 @@ class CategoryTableViewController: UITableViewController {
     
     func updateUI(with categories: [String]){
         self.categories = categories
-        print(#function,categories)
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     // MARK: - Table view data source
 
@@ -88,14 +89,17 @@ class CategoryTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "MenuSegue"{
+            let menuTableViewController = segue.destination as! MenuTableViewController
+            let index = tableView.indexPathForSelectedRow!.row
+            menuTableViewController.category = categories[index]
+        }
     }
-    */
+    
 
 }
