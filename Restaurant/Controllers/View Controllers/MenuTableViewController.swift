@@ -39,15 +39,28 @@ class MenuTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCellIdentifier", for: indexPath)
-
-        let menuItem = menuItems[indexPath.row]
         
-        cell.textLabel?.text = menuItem.name
-        cell.detailTextLabel?.text = "$\(menuItem.price)"
-        
+        configure(cell: cell, forItemAt: indexPath)
         return cell
     }
-    
+        func configure(cell: UITableViewCell, forItemAt indexPath: IndexPath){
+            let menuItem = menuItems[indexPath.row]
+            
+            cell.textLabel?.text = menuItem.name
+            cell.detailTextLabel?.text = String(format: "$%.2f", menuItem.price)
+            
+            menuController.fetchImage(url: menuItem.imageURL){
+                image in
+                
+                guard let image = image else { return }
+                
+                DispatchQueue.main.async {
+                    cell.imageView?.image = image
+                }
+            }
+            
+            
+        }
 
     /*
     // Override to support conditional editing of the table view.
