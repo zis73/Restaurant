@@ -97,14 +97,19 @@ class MenuTableViewController: UITableViewController {
     }
     */
 
-    /*
+  
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        guard segue.identifier == "MenuDetailSegue" else { return }
+        
+        let viewController = segue.destination as! MenuItemDetailViewController
+        
+        let index = tableView.indexPathForSelectedRow!.row
+        
+        viewController.menuItem = menuItems[index]
     }
-    */
+    
 
 }
