@@ -9,6 +9,9 @@
 import UIKit
 
 class MenuController {
+    static let orderUpdateNotification = Notification.Name("MenuController.orderUpdated")
+    static let shared = MenuController()
+    var order = Order()
     let baseURL = URL(string: "http://api.armenu.net:8090/")!
     
     func fetchCategories(completion: @escaping ([String]?) -> Void) {
@@ -82,4 +85,11 @@ class MenuController {
         }
         task.resume()
     }
+    var orderTabBarItem: UITabBar
+    
+    @objc func updateOrderBadge() {
+        orderTabBarItem.badgeValue =
+            String(MenuController.shared.order.menuItems.count)
+    }
+    
 }
